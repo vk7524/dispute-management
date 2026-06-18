@@ -10,26 +10,26 @@ function WorkQueue() {
 
   useEffect(() => {
 
+    const loadInvoices = async () => {
+
+      try {
+
+        const response =
+          await getInvoices();
+
+        setInvoices(response.data);
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+
+    };
+
     loadInvoices();
 
   }, []);
-
-  const loadInvoices = async () => {
-
-    try {
-
-      const response =
-        await getInvoices();
-
-      setInvoices(response.data);
-
-    } catch (error) {
-
-      console.log(error);
-
-    }
-
-  };
 
   return (
     <div style={{ padding: "20px" }}>

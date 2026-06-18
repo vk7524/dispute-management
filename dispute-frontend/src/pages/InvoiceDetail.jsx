@@ -18,21 +18,21 @@ function InvoiceDetail() {
     useState(false);
 
   useEffect(() => {
+    const fetchInvoice = async () => {
+      try {
+        const response =
+          await getInvoiceById(id);
+
+        setInvoiceData(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchInvoice();
-  }, []);
-
-  const fetchInvoice = async () => {
-    try {
-      const response =
-        await getInvoiceById(id);
-
-      setInvoiceData(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [id]);
 
   if (loading) {
     return <h3>Loading...</h3>;
