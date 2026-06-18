@@ -24,20 +24,20 @@ const CreateDispute = ({ invoiceData,
     });
 
     useEffect(() => {
+        const fetchTeams = async () => {
+            try {
+                const response = await getTeams();
+
+                console.log("Teams API Response", response);
+
+                setTeams(response.data?.data || []);
+            } catch (error) {
+                console.log("Teams Error", error);
+            }
+        };
+
         fetchTeams();
     }, []);
-
-    const fetchTeams = async () => {
-        try {
-            const response = await getTeams();
-
-            console.log("Teams API Response", response);
-
-            setTeams(response.data?.data || []);
-        } catch (error) {
-            console.log("Teams Error", error);
-        }
-    };
     const loadUsers = async (teamName) => {
         try {
             const response =
@@ -95,6 +95,10 @@ const CreateDispute = ({ invoiceData,
             });
 
             setUsers([]);
+
+            if (onClose) {
+                onClose();
+            }
         } catch (error) {
             console.log(error);
             alert("Something went wrong");
@@ -104,9 +108,29 @@ const CreateDispute = ({ invoiceData,
     return (
         <div
             className="modal-overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="create-dispute-title"
+            onClick={onClose}
         >
-            <div className="modal-container">
-                <h2>Create Dispute</h2>
+            <div
+                className="modal-container"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <div className="modal-header">
+                    <h2 id="create-dispute-title">
+                        Create Dispute
+                    </h2>
+
+                    <button
+                        type="button"
+                        className="modal-close-button"
+                        onClick={onClose}
+                        aria-label="Close create dispute modal"
+                    >
+                        ×
+                    </button>
+                </div>
 
                 <form onSubmit={handleSubmit}>
                     <div>
@@ -244,9 +268,18 @@ const CreateDispute = ({ invoiceData,
 
                     <br />
 
-                    <button type="submit">
-                        Create Ticket
-                    </button>
+                    <div className="modal-actions">
+                        <button type="submit">
+                            Create Ticket
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={onClose}
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </form>
             </div>
 
