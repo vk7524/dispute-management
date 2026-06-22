@@ -1,13 +1,41 @@
 const Dispute = require("../models/Dispute");
+const User = require("../models/User");
+const { sendTeamsNotification } = require("../services/notificationService");
 
 const createDispute = async (req, res) => {
     try {
+        const { assigneeId, assigneeName, assigneeEmail } = req.body;
+        let resolvedAssigneeName = assigneeName;
+        let resolvedAssigneeEmail = assigneeEmail;
+
+        if (assigneeId) {
+            const assignee = await User.findById(assigneeId);
+
+            if (!assignee) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Assignee not found"
+                });
+            }
+
+            resolvedAssigneeName = assignee.name;
+            resolvedAssigneeEmail = assignee.email;
+        }
+
+        if (!resolvedAssigneeEmail) {
+            return res.status(400).json({
+                success: false,
+                message: "Assignee email is required"
+            });
+        }
 
         const ticketNumber =
             "DSP-" + Date.now();
 
         const dispute = await Dispute.create({
             ...req.body,
+            assigneeName: resolvedAssigneeName,
+            assigneeEmail: resolvedAssigneeEmail,
             ticketNumber,
             statusHistory: [
                 {
@@ -16,6 +44,8 @@ const createDispute = async (req, res) => {
                 }
             ]
         });
+
+        await sendTeamsNotification(dispute);
 
         res.status(201).json({
             success: true,
@@ -124,6 +154,8 @@ const reassignDispute = async (req, res) => {
             });
         }
         dispute.assigneeId = assigneeId;
+        dispute.assigneeName = user.name;
+        dispute.assigneeEmail = user.email;
 
         await dispute.save();
 

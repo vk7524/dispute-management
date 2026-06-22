@@ -37,6 +37,18 @@ const disputeSchema = new mongoose.Schema(
             ref: "User"
         },
 
+        assigneeName: {
+            type: String,
+            required: true
+        },
+
+        assigneeEmail: {
+            type: String,
+            required: true,
+            trim: true,
+            lowercase: true
+        },
+
         priority: {
             type: String,
             default: "Medium"
