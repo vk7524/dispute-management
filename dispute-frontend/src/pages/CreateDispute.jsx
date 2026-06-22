@@ -241,12 +241,20 @@ const CreateDispute = ({ invoiceData,
                                 Select Assignee
                             </option>
 
+                            {/* {users.map((user) => (
+                                <option
+                                    key={user._id}
+                                    value={user._id}
+                                >
+                                    {user.name} ({user.email})
+                                </option>
+                            ))} */}
                             {users.map((user) => (
                                 <option
                                     key={user._id}
                                     value={user._id}
                                 >
-                                    {user.name}
+                                    {`${user.name} - ${user.email}`}
                                 </option>
                             ))}
                         </select>
