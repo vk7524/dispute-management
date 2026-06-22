@@ -1,7 +1,5 @@
 import axios from "axios";
-
-// const API = "http://localhost:5000/api";
-const API = "http://192.168.2.122:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 
 export const getInvoices = async () => {
