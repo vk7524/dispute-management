@@ -32,6 +32,11 @@ router.get("/seed-users", async (req,res)=>{
       name:"Rakesh Kumar",
       email:"rakesh@test.com",
       team:"Delivery"
+   },
+   {
+      name:"Vivek Dubey",
+      email:"vivek.dubey@uneecops.in",
+      team:"Finance"
    }
  ]);
 

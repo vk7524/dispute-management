@@ -37,6 +37,11 @@ router.get("/", async (req, res) => {
         email: "vikram@test.com",
         team: "Support",
       },
+      {
+        name: "Vivek Dubey",
+        email: "vivek.dubey@uneecops.in",
+        team: "Finance",
+      },
     ]);
 
     res.json({

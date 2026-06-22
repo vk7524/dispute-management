@@ -19,6 +19,8 @@ const CreateDispute = ({ invoiceData,
         description: "",
         ownerTeam: "",
         assigneeId: "",
+        assigneeName: "",
+        assigneeEmail: "",
         priority: "Medium",
         customerImpact: "",
     });
@@ -60,6 +62,8 @@ const CreateDispute = ({ invoiceData,
             ...prev,
             ownerTeam: selectedTeam,
             assigneeId: "",
+            assigneeName: "",
+            assigneeEmail: "",
         }));
 
         await loadUsers(selectedTeam);
@@ -69,6 +73,20 @@ const CreateDispute = ({ invoiceData,
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleAssigneeChange = (e) => {
+        const selectedAssigneeId = e.target.value;
+        const selectedAssignee = users.find(
+            (user) => user._id === selectedAssigneeId
+        );
+
+        setFormData({
+            ...formData,
+            assigneeId: selectedAssigneeId,
+            assigneeName: selectedAssignee?.name || "",
+            assigneeEmail: selectedAssignee?.email || "",
         });
     };
 
@@ -90,6 +108,8 @@ const CreateDispute = ({ invoiceData,
                 description: "",
                 ownerTeam: "",
                 assigneeId: "",
+                assigneeName: "",
+                assigneeEmail: "",
                 priority: "Medium",
                 customerImpact: "",
             });
@@ -215,7 +235,7 @@ const CreateDispute = ({ invoiceData,
                         <select
                             name="assigneeId"
                             value={formData.assigneeId}
-                            onChange={handleChange}
+                            onChange={handleAssigneeChange}
                         >
                             <option value="">
                                 Select Assignee
