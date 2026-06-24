@@ -9,6 +9,7 @@ const disputeRoutes = require("./routes/disputeRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const connectDB = require("./config/db");
+const graphRoutes = require("./routes/graphRoutes");
 const app = express();
 connectDB();
 app.use(
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use("/api/seed", seedRoutes);
 app.use("/api/teams", teamRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/graph", graphRoutes);
 app.use("/api/disputes", disputeRoutes);
 app.use("/api/disputes", commentRoutes);
 app.use("/api/invoices", invoiceRoutes);
