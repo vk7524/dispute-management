@@ -4,9 +4,11 @@ import {
     getTeams,
     getUsersByTeam,
 } from "../services/disputeService";
+import { useMsal } from "@azure/msal-react";
+import { getGraphToken } from "../services/graphService";
 
-const CreateDispute = ({ invoiceData,
-    onClose, }) => {
+const CreateDispute = ({ invoiceData, onClose, }) => {
+    const { instance, accounts } = useMsal();
     const [teams, setTeams] = useState([]);
     const [users, setUsers] = useState([]);
 
@@ -94,8 +96,16 @@ const CreateDispute = ({ invoiceData,
         e.preventDefault();
 
         try {
+            const accessToken =
+                await getGraphToken(
+                    instance,
+                    accounts[0]
+                );
             const response =
-                await createDispute(formData);
+                await createDispute(
+                    formData,
+                    accessToken
+                );
 
             alert("Ticket Created Successfully");
 

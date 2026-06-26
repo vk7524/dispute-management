@@ -8,8 +8,20 @@ export const getDisputeById = (id) => {
   return api.get(`/disputes/${id}`);
 };
 
-export const createDispute = (data) => {
-  return api.post("/disputes", data);
+export const createDispute = (
+  data,
+  accessToken
+) => {
+  return api.post(
+    "/disputes",
+    data,
+    {
+      headers: {
+        Authorization:
+          `Bearer ${accessToken}`,
+      },
+    }
+  );
 };
 
 export const getTeams = () => {

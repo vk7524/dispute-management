@@ -1,38 +1,61 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useMsal } from "@azure/msal-react";
 
 import WorkQueue from "../pages/WorkQueue";
 import InvoiceDetail from "../pages/InvoiceDetail";
 import CreateDispute from "../pages/CreateDispute";
 import DisputeDetail from "../pages/DisputeDetail";
+import Login from "../pages/Login";
 
 const AppRoutes = () => {
+  const { accounts } = useMsal();
+
   return (
     <Routes>
+      <Route
+        path="/login"
+        element={
+          accounts.length > 0
+            ? <Navigate to="/" replace />
+            : <Login />
+        }
+      />
 
-      {/* Work Queue */}
       <Route
         path="/"
-        element={<WorkQueue />}
+        element={
+          accounts.length > 0
+            ? <WorkQueue />
+            : <Navigate to="/login" replace />
+        }
       />
 
-      {/* Invoice Detail */}
       <Route
         path="/invoice/:id"
-        element={<InvoiceDetail />}
+        element={
+          accounts.length > 0
+            ? <InvoiceDetail />
+            : <Navigate to="/login" replace />
+        }
       />
 
-      {/* Create Dispute */}
       <Route
         path="/create-dispute"
-        element={<CreateDispute />}
+        element={
+          accounts.length > 0
+            ? <CreateDispute />
+            : <Navigate to="/login" replace />
+        }
       />
 
-      {/* Dispute Detail */}
       <Route
         path="/disputes/:id"
-        element={<DisputeDetail />}
+        element={
+          accounts.length > 0
+            ? <DisputeDetail />
+            : <Navigate to="/login" replace />
+        }
       />
-
     </Routes>
   );
 };

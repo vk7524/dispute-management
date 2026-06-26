@@ -45,7 +45,20 @@ const createDispute = async (req, res) => {
             ]
         });
 
-        await sendTeamsNotification(dispute);
+        const accessToken =
+            req.headers.authorization?.replace(
+                "Bearer ",
+                ""
+            );
+
+        try {
+            await sendTeamsNotification(
+                dispute,
+                accessToken
+            );
+        } catch (error) {
+            console.log(error);
+        }
 
         res.status(201).json({
             success: true,
